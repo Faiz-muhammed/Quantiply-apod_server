@@ -26,6 +26,8 @@ module.exports = {
         )
         .then((res) => {
           resolve(res.data);
+        }).catch((err) => {
+          reject("error in nasa api call");
         });
     });
   },
