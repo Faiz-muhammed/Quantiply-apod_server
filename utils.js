@@ -1,9 +1,10 @@
 const axios = require("axios");
 const fs = require("fs");
-const request= require("request");
-// const { request } = require("http");
+const request = require("request");
+
 
 module.exports = {
+
   nasa_apod: () => {
     return new Promise((resolve, reject) => {
       axios
@@ -18,6 +19,7 @@ module.exports = {
         });
     });
   },
+
   nasa_apod_selectedDate: (pickedDate) => {
     return new Promise((resolve, reject) => {
       axios
@@ -26,14 +28,16 @@ module.exports = {
         )
         .then((res) => {
           resolve(res.data);
-        }).catch((err) => {
+        })
+        .catch((err) => {
           reject("error in nasa api call");
         });
     });
   },
-  download_Image: (url,img_path,callBack) => {
-   request.head(url,(err,res,body)=>{
-     request(url).pipe(fs.createWriteStream(img_path)).on('close', callBack)
-   })
+
+  download_Image: (url, img_path, callBack) => {
+    request.head(url, (err, res, body) => {
+      request(url).pipe(fs.createWriteStream(img_path)).on("close", callBack);
+    });
   },
 };
