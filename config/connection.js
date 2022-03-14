@@ -1,8 +1,8 @@
 const mongoClient = require("mongodb").MongoClient;
 const state = { db: null };
 module.exports.connect = function (done) {
-  const url = 'mongodb://localhost:27017/';
-  const dbname = "quantiply";
+  const url =process.env.MONGO_ATLAS;
+  const dbname = "quantiplyDb";
 
   mongoClient.connect(url, (err, data) => {
     if (err) return done(err);

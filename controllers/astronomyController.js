@@ -1,12 +1,14 @@
-const { nasa_apod_selectedDate, download_Image } = require("../utils");
+const { nasa_apod_selectedDate, download_Image,nasa_apod } = require("../utils");
 const { getApod_FromDB, insertApod } = require("../services/service");
 
 module.exports = {
   getApod: async (req, res) => {
+  
     const currentDay = new Date().toISOString().slice(0, 10);
     let apodData = await getApod_FromDB(currentDay);
 
     if (apodData) {
+    
       apodData.url = `http://localhost:3001/apod_img/${apodData._id}.jpg`;
       return res.status(200).json({ data: apodData });
     } else {
@@ -14,7 +16,6 @@ module.exports = {
       nasa_apod()
         .then(async (response) => {
           let insertId = await insertApod(response);
-
           if (response.media_type === "image") {
 
             download_Image(
@@ -26,7 +27,7 @@ module.exports = {
             );
 
           }
-          response.url = `http://localhost:3001/apod_img/${response._id}.jpg`;
+          // response.url = `http://localhost:3001/apod_img/${response._id}.jpg`;
           return res.status(200).json({ data: response });
         })
         .catch((error) => {
@@ -40,7 +41,7 @@ module.exports = {
     let apodData = await getApod_FromDB(pickedDate);
 
     if(!pickedDate){
-      res.status(400).json({message:"Required fields missing"})
+      res.status(400).json({message:"Required input missing"})
     }
 
     else if (apodData) {
@@ -52,7 +53,7 @@ module.exports = {
         .then(async (response) => {
           let insertId = await insertApod(response);
           if (response.media_type === "image") {
-            
+
             download_Image(
               response.url,
               `./public/apod_img/${insertId.insertedId}.jpg`,
@@ -61,7 +62,7 @@ module.exports = {
               }
             );
           }
-          response.url = `http://localhost:3001/apod_img/${response._id}.jpg`;
+          // response.url = `http://localhost:3001/apod_img/${response._id}.jpg`;
           return res.status(200).json({ data: response });
         })
         .catch((error) => {
