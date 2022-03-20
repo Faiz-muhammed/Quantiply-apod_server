@@ -5,7 +5,7 @@ const request = require("request");
 
 module.exports = {
 
-  nasa_apod: () => {
+  nasa_apod: () => { 
     return new Promise((resolve, reject) => {
       axios
         .get(
