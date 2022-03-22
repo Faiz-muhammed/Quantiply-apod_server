@@ -13,12 +13,11 @@ module.exports = {
     try{
 
     if(date>currentDate){
-      console.log("pick late lesser than",currentDate)
       return res.status(400).json({message:`Pick a date lesser than or equal to ${currentDate}`})
     }
 
     let apodData = await getApod_FromDB(date); //  Getting Astronomy details from database
-    
+
     if (apodData) {
       apodData.url = `${process.env.DOMAIN_NAME}/apod_img/${apodData._id}.jpg`;
       return res.status(200).json({ data: apodData });
