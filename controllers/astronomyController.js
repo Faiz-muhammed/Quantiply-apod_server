@@ -11,11 +11,11 @@ module.exports = {
 
     if (apodData) {
     
-      apodData.url = `http://localhost:3001/apod_img/${apodData._id}.jpg`;
+      apodData.url = `${process.env.DOMAIN_NAME}/apod_img/${apodData._id}.jpg`;
       return res.status(200).json({ data: apodData });
     } else {
 
-      nasa_apod()       // Making a request to nasa apod open api for current day apod
+      nasa_apod()       // Making request to nasa apod open api for current day apod
         .then(async (response) => {
           let insertId = await insertApod(response); // inserting Astronomy informations to database
           if (response.media_type === "image") {
@@ -24,7 +24,7 @@ module.exports = {
               response.url,
               `./public/apod_img/${insertId.insertedId}.jpg`,
               () => {
-                console.log("dowloaded image");
+                console.log("downloaded image");
               }
             );
           }
@@ -46,7 +46,7 @@ module.exports = {
     }
 
     else if (apodData) {
-      apodData.url = `http://localhost:3001/apod_img/${apodData._id}.jpg`;
+      apodData.url = `${process.env.DOMAIN_NAME}/apod_img/${apodData._id}.jpg`;
       return res.status(200).json({ data: apodData });
     } else {
 

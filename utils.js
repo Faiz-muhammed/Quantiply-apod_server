@@ -2,10 +2,8 @@ const axios = require("axios");
 const fs = require("fs");
 const request = require("request");
 
-
 module.exports = {
-
-  nasa_apod: () => { 
+  nasa_apod: () => {
     return new Promise((resolve, reject) => {
       axios
         .get(
@@ -36,8 +34,12 @@ module.exports = {
   },
 
   download_Image: (url, img_path, callBack) => {
-    request.head(url, (err, res, body) => {
-      request(url).pipe(fs.createWriteStream(img_path)).on("close", callBack);
-    });
+    try {
+      request.head(url, (err, res, body) => {
+        request(url).pipe(fs.createWriteStream(img_path)).on("close", callBack);
+      });
+    } catch (err) {
+      console.error("error while downloading image");
+    }
   },
 };
